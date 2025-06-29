@@ -1,5 +1,6 @@
 import tinygrad
 from tinygrad.device import Device
+from tinygrad.helpers import Context
 from tinygrad.nn.datasets import mnist
 from tinygrad.tensor import Tensor
 from tinygrad import nn
@@ -32,6 +33,9 @@ if __name__ == "__main__":
 
   acc = (model(X_test).argmax(axis=1) == Y_test).mean()
   print(acc)
+
+  with Context(BEAM=2):
+    train_step(model, X_train)
 
   start = time.time()
   for iteration in range(7000):
