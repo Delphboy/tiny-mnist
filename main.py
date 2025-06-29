@@ -6,7 +6,7 @@ from tinygrad import nn
 from tinygrad.nn import optim, state
 from tinygrad.engine.jit import TinyJit
 
-import timeit
+import time
 
 from model import BasicModel
 
@@ -33,9 +33,14 @@ if __name__ == "__main__":
   acc = (model(X_test).argmax(axis=1) == Y_test).mean()
   print(acc)
 
+  start = time.time()
   for iteration in range(7000):
     loss = train_step(model, X_train)
     if iteration % 100 == 0:
       Tensor.training = False
       acc = (model(X_test).argmax(axis=1) == Y_test).mean().item()
       print(f"step {iteration:4d}, loss {loss.item():.2f}, acc {acc*100.:.2f}%")
+  end = time.time()
+
+  print()
+  print(f"Time taken: {end - start}")
